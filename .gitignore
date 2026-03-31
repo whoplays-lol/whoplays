@@ -8,10 +8,10 @@
 # ========================
 # NODE / FRONTEND
 # ========================
-frontend/node_modules/
-frontend/dist/
-frontend/build/
-frontend/.vite/
+node_modules/
+dist/
+build/
+.vite/
 
 # ========================
 # .NET
