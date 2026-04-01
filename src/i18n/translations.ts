@@ -109,7 +109,7 @@ const translations: Record<Language, Translations> = {
           },
         ],
       },
-      footer: 'WannaFill — Hecho para gamers, por gamers.',
+      footer: 'WhoPlays — Hecho para gamers, por gamers.',
     },
     modal: {
       title: 'Buscar compañeros',
@@ -241,7 +241,7 @@ const translations: Record<Language, Translations> = {
           },
         ],
       },
-      footer: 'WannaFill — Built for gamers, by gamers.',
+      footer: 'WhoPlays — Built for gamers, by gamers.',
     },
     modal: {
       title: 'Find teammates',
