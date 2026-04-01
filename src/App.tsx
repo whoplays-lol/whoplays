@@ -34,7 +34,15 @@ export default function App() {
 
   return (
     <LanguageProvider>
-    <div className="min-h-screen bg-gray-950">
+      {/* Global fixed video background */}
+      <video
+        autoPlay loop muted playsInline
+        className="fixed inset-0 w-full h-full object-cover -z-10"
+        src="/assets/videos/video-loop.mp4"
+      />
+      <div className="fixed inset-0 bg-black/50 -z-10" />
+
+    <div className="min-h-screen">
       {(view === 'landing' || view === 'modal') && (
         <>
           <Landing onFindTeammates={handleOpenModal} />

@@ -150,12 +150,12 @@ export default function MatchmakingModal({ onClose, onEnqueued }: MatchmakingMod
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
       onClick={handleBackdropClick}
     >
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl">
+      <div className="bg-gray-950/95 border border-orange-800/30 rounded-2xl backdrop-blur-md ring-1 ring-orange-600/10 shadow-2xl shadow-orange-900/20 w-full max-w-lg max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-800">
+        <div className="flex items-center justify-between p-6 border-b border-gray-800/60">
           <div>
             <h2 className="text-xl font-bold text-white">{tm.title}</h2>
             <p className="text-sm text-gray-500 mt-0.5">{tm.subtitle}</p>

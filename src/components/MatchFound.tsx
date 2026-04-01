@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Chat from './Chat'
 import { useLanguage } from '../contexts/LanguageContext'
+import { ensureConnected } from '../services/signalr'
 import type { MatchGroupDto, ParticipantDto } from '../types'
 import matchSound from '../../assets/sounds/team-found-notification.wav'
 
@@ -15,6 +16,16 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave }
   const { t } = useLanguage()
   const tm = t.match
   const [showCelebration, setShowCelebration] = useState(true)
+
+  const handleLeave = async () => {
+    try {
+      const conn = await ensureConnected()
+      await conn.invoke('LeaveMatch', matchGroup.id, myAlias)
+    } catch {
+      // ignore — leave anyway
+    }
+    onLeave()
+  }
 
   useEffect(() => {
     // Play notification sound when match is found
@@ -32,9 +43,9 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave }
       {/* Celebration banner */}
       {showCelebration && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="animate-celebration bg-brand-500/20 border border-brand-500/40 backdrop-blur-md rounded-2xl px-10 py-8 text-center shadow-2xl">
+          <div className="animate-celebration bg-orange-500/20 border border-orange-500/40 backdrop-blur-md rounded-2xl px-10 py-8 text-center shadow-2xl">
             <div className="text-5xl font-extrabold text-white mb-2">{tm.celebration}</div>
-            <div className="text-brand-400 text-lg">{tm.celebrationSub}</div>
+            <div className="text-orange-400 text-lg">{tm.celebrationSub}</div>
           </div>
         </div>
       )}
@@ -53,7 +64,7 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave }
               {matchGroup.rank ? ` — ${matchGroup.rank}` : ''}
             </p>
           </div>
-          <button onClick={onLeave} className="btn-secondary text-sm">
+          <button onClick={handleLeave} className="btn-secondary text-sm">
             {tm.leave}
           </button>
         </div>
@@ -91,7 +102,7 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave }
 
         {/* Chat */}
         <div className="flex-1 min-h-0">
-          <Chat matchGroupId={matchGroup.id} sessionId={mySessionId} alias={myAlias} />
+          <Chat matchGroupId={matchGroup.id} sessionId={mySessionId} alias={myAlias} onPlayerLeft={onLeave} />
         </div>
       </div>
 
@@ -137,24 +148,24 @@ function ParticipantRow({
   return (
     <div
       className={`flex items-center justify-between rounded-xl px-4 py-3 border transition-colors ${
-        isMe ? 'bg-brand-500/10 border-brand-500/30' : 'bg-gray-800/40 border-gray-700/50'
+        isMe ? 'bg-orange-500/10 border-orange-500/30' : 'bg-gray-800/40 border-gray-700/50'
       }`}
     >
       <div className="flex items-center gap-3">
         <div
           className={`w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold ${
-            isMe ? 'bg-brand-500/20 text-brand-400' : 'bg-gray-700 text-gray-300'
+            isMe ? 'bg-orange-500/20 text-orange-400' : 'bg-gray-700 text-gray-300'
           }`}
         >
           {participant.alias.slice(0, 2).toUpperCase()}
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className={`text-sm font-semibold ${isMe ? 'text-brand-300' : 'text-white'}`}>
+            <span className={`text-sm font-semibold ${isMe ? 'text-orange-300' : 'text-white'}`}>
               {participant.alias}
             </span>
             {isMe && (
-              <span className="text-xs bg-brand-500/20 text-brand-400 border border-brand-500/30 px-1.5 py-0.5 rounded-md font-medium">
+              <span className="text-xs bg-orange-500/20 text-orange-400 border border-orange-500/30 px-1.5 py-0.5 rounded-md font-medium">
                 {youLabel}
               </span>
             )}
