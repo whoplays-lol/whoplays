@@ -114,18 +114,18 @@ export default function QueueStatus({ queueRequest, onMatchFound, onCancel }: Qu
   const playersNeeded = queueRequest.playersNeeded
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-16">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-16 bg-black/30">
       {/* Animated background pulse */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-500/5 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-red-600/8 rounded-full blur-3xl animate-pulse" />
       </div>
 
       <div className="relative z-10 w-full max-w-md flex flex-col items-center gap-6">
         {/* Spinner */}
         <div className="relative">
           <div className="w-24 h-24 rounded-full border-4 border-gray-800 flex items-center justify-center">
-            <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-brand-500 animate-spin" />
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f6ef7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-red-500 animate-spin" />
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
               <circle cx="9" cy="7" r="4" />
               <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -141,7 +141,7 @@ export default function QueueStatus({ queueRequest, onMatchFound, onCancel }: Qu
         </div>
 
         {/* Elapsed time */}
-        <div className="flex items-center gap-2 bg-gray-900 border border-gray-800 rounded-full px-5 py-2">
+        <div className="flex items-center gap-2 bg-red-950/60 border border-red-800/30 rounded-full px-5 py-2 backdrop-blur-sm">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2">
             <circle cx="12" cy="12" r="10" />
             <polyline points="12 6 12 12 16 14" />
@@ -151,7 +151,7 @@ export default function QueueStatus({ queueRequest, onMatchFound, onCancel }: Qu
         </div>
 
         {/* Queue details card */}
-        <div className="card w-full">
+        <div className="bg-red-950/70 border border-red-900/40 rounded-2xl p-6 w-full backdrop-blur-sm">
           <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-4">
             {tq.details}
           </h3>
@@ -182,7 +182,7 @@ export default function QueueStatus({ queueRequest, onMatchFound, onCancel }: Qu
           {[0, 1, 2].map(i => (
             <div
               key={i}
-              className="w-2 h-2 rounded-full bg-brand-500/60"
+              className="w-2 h-2 rounded-full bg-orange-500/70"
               style={{ animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }}
             />
           ))}
@@ -199,7 +199,7 @@ export default function QueueStatus({ queueRequest, onMatchFound, onCancel }: Qu
         <button
           onClick={handleCancel}
           disabled={cancelling}
-          className="btn-secondary flex items-center gap-2"
+          className="flex items-center gap-2 px-6 py-2.5 rounded-xl border border-red-800/50 text-gray-300 hover:border-red-600/70 hover:text-white transition-all text-sm"
         >
           {cancelling ? (
             <>
@@ -238,9 +238,9 @@ function DetailItem({
   highlight?: boolean
 }) {
   return (
-    <div className="bg-gray-800/50 rounded-xl p-3">
+    <div className="bg-red-900/20 border border-red-800/20 rounded-xl p-3">
       <div className="text-xs text-gray-500 mb-0.5">{label}</div>
-      <div className={`text-sm font-semibold ${highlight ? 'text-brand-400' : 'text-white'}`}>
+      <div className={`text-sm font-semibold ${highlight ? 'text-orange-400' : 'text-white'}`}>
         {value}
       </div>
     </div>
