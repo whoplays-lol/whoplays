@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import { matchmakingApi } from './services/api'
 import videoSrc from '../assets/videos/video-loop.mp4'
 import Landing from './components/Landing'
 import MatchmakingModal from './components/MatchmakingModal'
@@ -33,11 +34,35 @@ export default function App() {
     setView('landing')
   }, [])
 
-  const handlePlayerLeft = useCallback(() => {
-    setQueueRequest(null)
+  const handlePlayerLeft = useCallback(async () => {
+    if (!queueRequest) {
+      setMatchGroup(null)
+      setQueueRequest(null)
+      setView('modal')
+      return
+    }
+
+    const prev = queueRequest
     setMatchGroup(null)
-    setView('modal')
-  }, [])
+    setQueueRequest(null)
+
+    try {
+      const result = await matchmakingApi.enqueue({
+        alias: prev.alias,
+        sessionId: prev.sessionId,
+        gameId: prev.gameId,
+        server: prev.server,
+        mode: prev.mode,
+        teamFormat: prev.teamFormat ?? undefined,
+        rank: prev.rank ?? undefined,
+        currentGroupSize: prev.currentGroupSize,
+      })
+      setQueueRequest(result)
+      setView('queue')
+    } catch {
+      setView('modal')
+    }
+  }, [queueRequest])
 
   return (
     <LanguageProvider>
