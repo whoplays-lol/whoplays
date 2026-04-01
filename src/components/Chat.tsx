@@ -3,11 +3,14 @@ import { matchmakingApi } from '../services/api'
 import { ensureConnected, getConnection } from '../services/signalr'
 import { useLanguage } from '../contexts/LanguageContext'
 import type { MessageDto } from '../types'
+import msgInSound from '../../assets/sounds/msg-in.mp3'
+import msgOutSound from '../../assets/sounds/msg-out.mp3'
 
 interface ChatProps {
   matchGroupId: string
   sessionId: string
   alias: string
+  onPlayerLeft?: () => void
 }
 
 function formatTime(dateStr: string, locale: string): string {
@@ -15,7 +18,7 @@ function formatTime(dateStr: string, locale: string): string {
   return date.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })
 }
 
-export default function Chat({ matchGroupId, sessionId, alias }: ChatProps) {
+export default function Chat({ matchGroupId, sessionId, alias, onPlayerLeft }: ChatProps) {
   const { t, language } = useLanguage()
   const tc = t.chat
   const locale = language === 'es' ? 'es-AR' : 'en-US'
@@ -25,6 +28,7 @@ export default function Chat({ matchGroupId, sessionId, alias }: ChatProps) {
   const [sending, setSending] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [playerLeftMsg, setPlayerLeftMsg] = useState<string | null>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -50,9 +54,18 @@ export default function Chat({ matchGroupId, sessionId, alias }: ChatProps) {
       try {
         const conn = await ensureConnected()
         if (!cleanedUp) {
+          conn.on('ParticipantLeft', (leftAlias: string) => {
+            setPlayerLeftMsg(leftAlias)
+            setTimeout(() => {
+              onPlayerLeft?.()
+            }, 3000)
+          })
           conn.on('NewMessage', (message: MessageDto) => {
             setMessages(prev => {
               if (prev.some(m => m.id === message.id)) return prev
+              if (message.alias !== alias) {
+                new Audio(msgInSound).play().catch(() => {})
+              }
               return [...prev, message]
             })
           })
@@ -69,6 +82,7 @@ export default function Chat({ matchGroupId, sessionId, alias }: ChatProps) {
       cleanedUp = true
       try {
         const conn = getConnection()
+        conn.off('ParticipantLeft')
         conn.off('NewMessage')
       } catch {
         // ignore
@@ -94,6 +108,7 @@ export default function Chat({ matchGroupId, sessionId, alias }: ChatProps) {
         if (prev.some(m => m.id === sent.id)) return prev
         return [...prev, sent]
       })
+      new Audio(msgOutSound).play().catch(() => {})
     } catch {
       setError(tc.sendError)
       setInput(content)
@@ -115,7 +130,7 @@ export default function Chat({ matchGroupId, sessionId, alias }: ChatProps) {
       {/* Chat header */}
       <div className="flex items-center justify-between pb-4 border-b border-gray-800 mb-4 shrink-0">
         <div className="flex items-center gap-2">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f6ef7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
           </svg>
           <h3 className="text-sm font-semibold text-white">{tc.title}</h3>
@@ -130,7 +145,7 @@ export default function Chat({ matchGroupId, sessionId, alias }: ChatProps) {
       <div className="flex-1 overflow-y-auto flex flex-col gap-3 pr-1 min-h-0">
         {loading ? (
           <div className="flex items-center justify-center h-full text-gray-500 text-sm gap-2">
-            <span className="w-4 h-4 border-2 border-gray-700 border-t-brand-500 rounded-full animate-spin" />
+            <span className="w-4 h-4 border-2 border-gray-700 border-t-orange-500 rounded-full animate-spin" />
             {tc.loading}
           </div>
         ) : messages.length === 0 ? (
@@ -152,6 +167,13 @@ export default function Chat({ matchGroupId, sessionId, alias }: ChatProps) {
         )}
         <div ref={bottomRef} />
       </div>
+
+      {/* Player left toast */}
+      {playerLeftMsg && (
+        <div className="mx-1 mb-3 px-4 py-3 rounded-xl bg-yellow-500/15 border border-yellow-500/30 text-yellow-300 text-sm text-center shrink-0">
+          ⚠️ <strong>{playerLeftMsg}</strong> abandonó el lobby. Volviendo a buscar equipo...
+        </div>
+      )}
 
       {/* Error */}
       {error && <div className="text-red-400 text-xs px-1 mt-1 shrink-0">{error}</div>}
@@ -207,8 +229,8 @@ function MessageBubble({
       <div
         className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
           isMe
-            ? 'bg-brand-500 text-white rounded-tr-sm'
-            : 'bg-gray-800 text-gray-100 rounded-tl-sm'
+            ? 'bg-orange-500 text-white rounded-tr-sm'
+            : 'bg-gray-800/80 text-gray-100 rounded-tl-sm'
         }`}
       >
         {message.content}
