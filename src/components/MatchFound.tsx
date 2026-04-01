@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Confetti from 'react-confetti'
 import Chat from './Chat'
 import { useLanguage } from '../contexts/LanguageContext'
 import { ensureConnected } from '../services/signalr'
@@ -17,6 +18,13 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, 
   const { t } = useLanguage()
   const tm = t.match
   const [showCelebration, setShowCelebration] = useState(true)
+  const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight })
+
+  useEffect(() => {
+    const handler = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight })
+    window.addEventListener('resize', handler)
+    return () => window.removeEventListener('resize', handler)
+  }, [])
 
   const handleLeave = async () => {
     try {
@@ -41,14 +49,24 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, 
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Celebration banner */}
+      {/* Confetti + Celebration banner */}
       {showCelebration && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="animate-celebration bg-orange-500/20 border border-orange-500/40 backdrop-blur-md rounded-2xl px-10 py-8 text-center shadow-2xl">
-            <div className="text-5xl font-extrabold text-white mb-2">{tm.celebration}</div>
-            <div className="text-orange-400 text-lg">{tm.celebrationSub}</div>
+        <>
+          <Confetti
+            width={windowSize.width}
+            height={windowSize.height}
+            recycle={false}
+            numberOfPieces={300}
+            colors={['#f97316', '#ea580c', '#ef4444', '#fbbf24', '#ffffff']}
+            style={{ position: 'fixed', top: 0, left: 0, zIndex: 100 }}
+          />
+          <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
+            <div className="animate-celebration bg-orange-500/20 border border-orange-500/40 backdrop-blur-md rounded-2xl px-10 py-8 text-center shadow-2xl">
+              <div className="text-5xl font-extrabold text-white mb-2">{tm.celebration}</div>
+              <div className="text-orange-400 text-lg">{tm.celebrationSub}</div>
+            </div>
           </div>
-        </div>
+        </>
       )}
 
       <div className="flex-1 max-w-3xl mx-auto w-full px-4 py-8 flex flex-col gap-6">
