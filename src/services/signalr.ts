@@ -1,11 +1,12 @@
 import * as signalR from '@microsoft/signalr'
+import { API_URL } from '../config'
 
 let connection: signalR.HubConnection | null = null
 
 export function getConnection(): signalR.HubConnection {
   if (!connection) {
     connection = new signalR.HubConnectionBuilder()
-      .withUrl('/hubs/matchmaking')
+      .withUrl(API_URL + '/hubs/matchmaking')
       .withAutomaticReconnect()
       .configureLogging(signalR.LogLevel.Warning)
       .build()

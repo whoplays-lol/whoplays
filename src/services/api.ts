@@ -1,7 +1,8 @@
 import axios from 'axios'
 import type { CreateQueueRequest, GameDefinition, MatchGroupDto, MessageDto, QueueRequestDto } from '../types'
+import { API_URL } from '../config'
 
-const api = axios.create({ baseURL: '/api' })
+const api = axios.create({ baseURL: API_URL + '/api' })
 
 export const gamesApi = {
   getAll: (): Promise<GameDefinition[]> => api.get('/games').then(r => r.data)
