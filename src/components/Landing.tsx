@@ -19,8 +19,14 @@ const GAMES = [
 ]
 
 const LANGUAGE_OPTIONS: { value: Language; label: string; flag: string }[] = [
-  { value: 'es', label: 'Español', flag: 'ES' },
-  { value: 'en', label: 'English', flag: 'EN' },
+  { value: 'es', label: 'Español',   flag: '🇦🇷' },
+  { value: 'en', label: 'English',   flag: '🇬🇧' },
+  { value: 'pt', label: 'Português', flag: '🇧🇷' },
+  { value: 'zh', label: '中文',       flag: '🇨🇳' },
+  { value: 'ja', label: '日本語',     flag: '🇯🇵' },
+  { value: 'ru', label: 'Русский',   flag: '🇷🇺' },
+  { value: 'it', label: 'Italiano',  flag: '🇮🇹' },
+  { value: 'fr', label: 'Français',  flag: '🇫🇷' },
 ]
 
 function LanguageSwitcher() {
@@ -48,12 +54,8 @@ function LanguageSwitcher() {
         aria-label={t.langSwitcher.label}
         aria-expanded={open}
       >
-        <svg style={{ pointerEvents: 'none' }} width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="10" />
-          <line x1="2" y1="12" x2="22" y2="12" />
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-        </svg>
-        <span style={{ pointerEvents: 'none' }} className="font-semibold tracking-wide">{current.flag}</span>
+        <span style={{ pointerEvents: 'none' }} className="text-lg leading-none">{current.flag}</span>
+        <span style={{ pointerEvents: 'none' }} className="font-semibold tracking-wide text-sm">{current.label}</span>
         <svg
           style={{ pointerEvents: 'none' }}
           width="12"
@@ -71,7 +73,7 @@ function LanguageSwitcher() {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-36 bg-gray-900/90 border border-gray-800 rounded-xl overflow-hidden shadow-2xl z-50 backdrop-blur-sm">
+        <div className="absolute right-0 mt-2 w-44 bg-gray-900/90 border border-gray-800 rounded-xl overflow-hidden shadow-2xl z-50 backdrop-blur-sm">
           {LANGUAGE_OPTIONS.map(opt => (
             <button
               key={opt.value}
@@ -86,7 +88,7 @@ function LanguageSwitcher() {
                   : 'text-gray-300 hover:bg-gray-800'
               }`}
             >
-              <span className="text-xs font-bold text-gray-500 w-5">{opt.flag}</span>
+              <span className="text-base leading-none">{opt.flag}</span>
               {opt.label}
               {language === opt.value && (
                 <svg style={{ pointerEvents: 'none' }} className="ml-auto" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
