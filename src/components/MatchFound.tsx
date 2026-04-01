@@ -10,9 +10,10 @@ interface MatchFoundProps {
   mySessionId: string
   myAlias: string
   onLeave: () => void
+  onPlayerLeft?: () => void
 }
 
-export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave }: MatchFoundProps) {
+export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, onPlayerLeft }: MatchFoundProps) {
   const { t } = useLanguage()
   const tm = t.match
   const [showCelebration, setShowCelebration] = useState(true)
@@ -102,7 +103,7 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave }
 
         {/* Chat */}
         <div className="flex-1 min-h-0">
-          <Chat matchGroupId={matchGroup.id} sessionId={mySessionId} alias={myAlias} onPlayerLeft={onLeave} />
+          <Chat matchGroupId={matchGroup.id} sessionId={mySessionId} alias={myAlias} onPlayerLeft={onPlayerLeft} />
         </div>
       </div>
 

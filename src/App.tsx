@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react'
+import videoSrc from '../assets/videos/video-loop.mp4'
 import Landing from './components/Landing'
 import MatchmakingModal from './components/MatchmakingModal'
 import QueueStatus from './components/QueueStatus'
@@ -32,13 +33,19 @@ export default function App() {
     setView('landing')
   }, [])
 
+  const handlePlayerLeft = useCallback(() => {
+    setQueueRequest(null)
+    setMatchGroup(null)
+    setView('modal')
+  }, [])
+
   return (
     <LanguageProvider>
       {/* Global fixed video background */}
       <video
         autoPlay loop muted playsInline
         className="fixed inset-0 w-full h-full object-cover -z-10"
-        src="/assets/videos/video-loop.mp4"
+        src={videoSrc}
       />
       <div className="fixed inset-0 bg-black/50 -z-10" />
 
@@ -69,6 +76,7 @@ export default function App() {
           mySessionId={queueRequest.sessionId}
           myAlias={queueRequest.alias}
           onLeave={handleCancel}
+          onPlayerLeft={handlePlayerLeft}
         />
       )}
     </div>
