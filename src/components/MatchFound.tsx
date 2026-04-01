@@ -43,7 +43,7 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, 
       // Browsers may block autoplay if there was no prior user interaction — silent fail
     })
 
-    const timer = setTimeout(() => setShowCelebration(false), 3000)
+    const timer = setTimeout(() => setShowCelebration(false), 5000)
     return () => clearTimeout(timer)
   }, [])
 
@@ -55,10 +55,20 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, 
           <Confetti
             width={windowSize.width}
             height={windowSize.height}
-            recycle={false}
-            numberOfPieces={300}
-            colors={['#f97316', '#ea580c', '#ef4444', '#fbbf24', '#ffffff']}
-            style={{ position: 'fixed', top: 0, left: 0, zIndex: 100 }}
+            recycle={true}
+            numberOfPieces={600}
+            gravity={0.15}
+            wind={0.02}
+            initialVelocityY={25}
+            initialVelocityX={15}
+            confettiSource={{
+              x: windowSize.width / 2,
+              y: windowSize.height / 2,
+              w: 0,
+              h: 0,
+            }}
+            colors={['#f97316', '#ea580c', '#ef4444', '#fbbf24', '#ffffff', '#ff0000', '#ffcc00']}
+            style={{ position: 'fixed', top: 0, left: 0, zIndex: 100, pointerEvents: 'none' }}
           />
           <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
             <div className="animate-celebration bg-orange-500/20 border border-orange-500/40 backdrop-blur-md rounded-2xl px-10 py-8 text-center shadow-2xl">
