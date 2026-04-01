@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { matchmakingApi } from './services/api'
 import videoSrc from '../assets/videos/video-loop.mp4'
 import Landing from './components/Landing'
@@ -11,9 +11,17 @@ import type { QueueRequestDto, MatchGroupDto } from './types'
 type AppView = 'landing' | 'modal' | 'queue' | 'match'
 
 export default function App() {
+  const videoRef = useRef<HTMLVideoElement>(null)
   const [view, setView] = useState<AppView>('landing')
   const [queueRequest, setQueueRequest] = useState<QueueRequestDto | null>(null)
   const [matchGroup, setMatchGroup] = useState<MatchGroupDto | null>(null)
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true
+      videoRef.current.play().catch(() => {})
+    }
+  }, [])
 
   const handleOpenModal = useCallback(() => setView('modal'), [])
   const handleCloseModal = useCallback(() => setView('landing'), [])
@@ -68,7 +76,13 @@ export default function App() {
     <LanguageProvider>
       {/* Global fixed video background */}
       <video
-        autoPlay loop muted playsInline
+        ref={videoRef}
+        autoPlay
+        loop
+        muted
+        playsInline
+        disablePictureInPicture
+        preload="auto"
         className="fixed inset-0 w-full h-full object-cover -z-10"
         src={videoSrc}
       />
