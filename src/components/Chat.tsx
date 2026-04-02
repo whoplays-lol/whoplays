@@ -31,6 +31,8 @@ export default function Chat({ matchGroupId, sessionId, alias, onPlayerLeft }: C
   const [playerLeftMsg, setPlayerLeftMsg] = useState<string | null>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const onPlayerLeftRef = useRef(onPlayerLeft)
+  useEffect(() => { onPlayerLeftRef.current = onPlayerLeft }, [onPlayerLeft])
 
   const scrollToBottom = useCallback(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -57,7 +59,7 @@ export default function Chat({ matchGroupId, sessionId, alias, onPlayerLeft }: C
           conn.on('ParticipantLeft', (leftAlias: string) => {
             setPlayerLeftMsg(leftAlias)
             setTimeout(() => {
-              onPlayerLeft?.()
+              onPlayerLeftRef.current?.()
             }, 3000)
           })
           conn.on('NewMessage', (message: MessageDto) => {

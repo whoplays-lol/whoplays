@@ -42,7 +42,7 @@ export default function App() {
     setView('landing')
   }, [])
 
-  const handlePlayerLeft = useCallback(async () => {
+  const handleRequeue = useCallback(async (excludedSessionIds: string[] = []) => {
     if (!queueRequest) {
       setMatchGroup(null)
       setQueueRequest(null)
@@ -64,6 +64,7 @@ export default function App() {
         teamFormat: prev.teamFormat ?? undefined,
         rank: prev.rank ?? undefined,
         currentGroupSize: prev.currentGroupSize,
+        excludedSessionIds: excludedSessionIds.length > 0 ? excludedSessionIds : undefined,
       })
       setQueueRequest(result)
       setView('queue')
@@ -71,6 +72,14 @@ export default function App() {
       setView('modal')
     }
   }, [queueRequest])
+
+  const handleLeaveMatch = useCallback((excludedSessionIds: string[]) => {
+    handleRequeue(excludedSessionIds)
+  }, [handleRequeue])
+
+  const handlePlayerLeft = useCallback(() => {
+    handleRequeue()
+  }, [handleRequeue])
 
   return (
     <LanguageProvider>
@@ -114,7 +123,7 @@ export default function App() {
           matchGroup={matchGroup}
           mySessionId={queueRequest.sessionId}
           myAlias={queueRequest.alias}
-          onLeave={handleCancel}
+          onLeave={handleLeaveMatch}
           onPlayerLeft={handlePlayerLeft}
         />
       )}

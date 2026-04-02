@@ -30,6 +30,7 @@ export interface CreateQueueRequest {
   teamFormat?: string
   rank?: string
   currentGroupSize: number
+  excludedSessionIds?: string[]
 }
 
 export interface QueueRequestDto {

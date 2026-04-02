@@ -10,7 +10,7 @@ interface MatchFoundProps {
   matchGroup: MatchGroupDto
   mySessionId: string
   myAlias: string
-  onLeave: () => void
+  onLeave: (excludedSessionIds: string[]) => void
   onPlayerLeft?: () => void
 }
 
@@ -27,13 +27,16 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, 
   }, [])
 
   const handleLeave = async () => {
+    const excludedSessionIds = matchGroup.participants
+      .filter(p => p.sessionId !== mySessionId)
+      .map(p => p.sessionId)
     try {
       const conn = await ensureConnected()
       await conn.invoke('LeaveMatch', matchGroup.id, myAlias)
     } catch {
       // ignore — leave anyway
     }
-    onLeave()
+    onLeave(excludedSessionIds)
   }
 
   useEffect(() => {
