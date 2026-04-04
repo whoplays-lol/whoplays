@@ -113,6 +113,13 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, 
             <InfoBadge label={tm.labels.players} value={String(matchGroup.totalPlayers)} />
           </div>
 
+          {matchGroup.matchReason && (
+            <div className="mb-5 flex items-start gap-2 bg-orange-500/10 border border-orange-500/20 rounded-xl px-4 py-3">
+              <span className="text-orange-400 text-sm">✨</span>
+              <p className="text-sm text-orange-300 leading-snug">{matchGroup.matchReason}</p>
+            </div>
+          )}
+
           {/* Participants */}
           <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">
             {tm.participants}

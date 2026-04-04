@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import type { Language } from '../i18n/translations'
 import logoImg from '../../assets/images/logo.png'
@@ -107,6 +107,23 @@ export default function Landing({ onFindTeammates }: LandingProps) {
   const { t } = useLanguage()
   const tl = t.landing
 
+  const [queueStats, setQueueStats] = useState<Record<string, number>>({})
+
+  const fetchStats = useCallback(() => {
+    fetch('/api/matchmaking/stats')
+      .then(r => r.json())
+      .then(data => {
+        setQueueStats(data.stats)
+      })
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    fetchStats()
+    const interval = setInterval(fetchStats, 10000)
+    return () => clearInterval(interval)
+  }, [fetchStats])
+
   return (
     <div className="relative min-h-screen flex flex-col">
 
@@ -165,24 +182,22 @@ export default function Landing({ onFindTeammates }: LandingProps) {
             </div>
           </div>
 
-          {/* Games */}
+          {/* Live queue stats */}
           <div className="flex flex-col items-center gap-3">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-widest">
-              {tl.gamesTitle}
-            </p>
-            <div className="flex gap-4 flex-wrap justify-center items-center">
-              {GAMES.map(game => (
-                <div
-                  key={game.name}
-                  className="p-2 rounded-xl border border-white/15 bg-white/5 hover:border-orange-500/40 hover:bg-white/10 transition-all"
-                >
-                  <img
-                    src={game.logo}
-                    alt={game.name}
-                    className="h-10 w-10 object-contain"
-                  />
-                </div>
-              ))}
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-widest">Buscando ahora</p>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {Object.entries(queueStats).map(([game, count]) =>
+                count > 0 && (
+                  <div key={game} className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                    <span className="text-xs text-gray-300">{game}</span>
+                    <span className="text-xs text-orange-400 font-semibold">{count}</span>
+                  </div>
+                )
+              )}
+              {Object.values(queueStats).every(v => v === 0) && (
+                <p className="text-xs text-gray-600">Sé el primero en buscar</p>
+              )}
             </div>
           </div>
 

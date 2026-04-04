@@ -31,6 +31,7 @@ export interface CreateQueueRequest {
   rank?: string
   currentGroupSize: number
   excludedSessionIds?: string[]
+  descripcion?: string
 }
 
 export interface QueueRequestDto {
@@ -60,6 +61,7 @@ export interface MatchGroupDto {
   teamFormat?: string
   rank?: string
   totalPlayers: number
+  matchReason?: string
   participants: ParticipantDto[]
   createdAt: string
 }
