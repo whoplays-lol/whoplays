@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import type { Language } from '../i18n/translations'
-import logoImg from '../../assets/images/logo.png'
-import valorantLogo from '../../assets/images/Valorant-LOGO.png'
-import lolLogo from '../../assets/images/LeagueOfLegends-LOGO.png'
-import cs2Logo from '../../assets/images/Cs2-LOGO.webp'
-import fortniteLogo from '../../assets/images/Fortnite-LOGO.png'
+
+const logoImg = '/logo.png'
+const valorantLogo = '/images/Valorant-LOGO.png'
+const lolLogo = '/images/LeagueOfLegends-LOGO.png'
+const cs2Logo = '/images/Cs2-LOGO.webp'
+const fortniteLogo = '/images/Fortnite-LOGO.png'
 
 interface LandingProps {
   onFindTeammates: () => void

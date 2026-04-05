@@ -15,6 +15,7 @@ function generateSessionId(): string {
 
 export function useSession() {
   const sessionId = useMemo(() => {
+    if (typeof window === 'undefined') return ''
     const stored = sessionStorage.getItem('wf_session_id')
     if (stored) return stored
     const id = generateSessionId()
@@ -23,6 +24,7 @@ export function useSession() {
   }, [])
 
   const defaultAlias = useMemo(() => {
+    if (typeof window === 'undefined') return ''
     const stored = sessionStorage.getItem('wf_alias')
     if (stored) return stored
     const alias = generateAlias()

@@ -4,7 +4,6 @@ import Chat from './Chat'
 import { useLanguage } from '../contexts/LanguageContext'
 import { ensureConnected } from '../services/signalr'
 import type { MatchGroupDto, ParticipantDto } from '../types'
-import matchSound from '../../assets/sounds/team-found-notification.wav'
 
 interface MatchFoundProps {
   matchGroup: MatchGroupDto
@@ -18,9 +17,10 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, 
   const { t } = useLanguage()
   const tm = t.match
   const [showCelebration, setShowCelebration] = useState(true)
-  const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight })
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
 
   useEffect(() => {
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight })
     const handler = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight })
     window.addEventListener('resize', handler)
     return () => window.removeEventListener('resize', handler)
@@ -41,7 +41,7 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, 
 
   useEffect(() => {
     // Play notification sound when match is found
-    const audio = new Audio(matchSound)
+    const audio = new Audio('/sounds/team-found-notification.mp3')
     audio.play().catch(() => {
       // Browsers may block autoplay if there was no prior user interaction — silent fail
     })

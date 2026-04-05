@@ -3,8 +3,6 @@ import { matchmakingApi } from '../services/api'
 import { ensureConnected, getConnection } from '../services/signalr'
 import { useLanguage } from '../contexts/LanguageContext'
 import type { MessageDto } from '../types'
-import msgInSound from '../../assets/sounds/msg-in.mp3'
-import msgOutSound from '../../assets/sounds/msg-out.mp3'
 
 interface ChatProps {
   matchGroupId: string
@@ -66,7 +64,7 @@ export default function Chat({ matchGroupId, sessionId, alias, onPlayerLeft }: C
             setMessages(prev => {
               if (prev.some(m => m.id === message.id)) return prev
               if (message.alias !== alias) {
-                new Audio(msgInSound).play().catch(() => {})
+                new Audio('/sounds/msg-in.mp3').play().catch(() => {})
               }
               return [...prev, message]
             })
@@ -110,7 +108,7 @@ export default function Chat({ matchGroupId, sessionId, alias, onPlayerLeft }: C
         if (prev.some(m => m.id === sent.id)) return prev
         return [...prev, sent]
       })
-      new Audio(msgOutSound).play().catch(() => {})
+      new Audio('/sounds/msg-out.mp3').play().catch(() => {})
     } catch {
       setError(tc.sendError)
       setInput(content)
