@@ -30,6 +30,7 @@ export default function MatchmakingModal({ onClose, onEnqueued }: MatchmakingMod
   const [selectedGameId, setSelectedGameId] = useState<string>('')
   const [selectedServer, setSelectedServer] = useState<string>('')
   const [descripcion, setDescripcion] = useState('')
+  const [groupSize, setGroupSize] = useState(1)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -82,7 +83,7 @@ export default function MatchmakingModal({ onClose, onEnqueued }: MatchmakingMod
         gameId: Number(selectedGameId),
         server: selectedServer,
         mode: 'Semantic',
-        currentGroupSize: 1,
+        currentGroupSize: groupSize,
         descripcion: descripcion.trim(),
       })
       onEnqueued(result)
@@ -191,6 +192,41 @@ export default function MatchmakingModal({ onClose, onEnqueued }: MatchmakingMod
               <p className={`text-xs ${descripcion.length >= 280 ? 'text-orange-400' : 'text-gray-600'}`}>
                 {descripcion.length}/300
               </p>
+            </div>
+          </div>
+
+          {/* Group size */}
+          <div>
+            <label className="label">¿Cuántos son en tu grupo?</label>
+            <div className="mt-3 bg-gray-800/60 border border-gray-700/50 rounded-xl p-3 flex items-center justify-between">
+              <div className="flex gap-2">
+                {Array.from({ length: 5 }, (_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setGroupSize(i + 1)}
+                    className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold border transition-colors ${
+                      i < groupSize
+                        ? 'bg-brand-500/20 border-brand-500/50 text-brand-400'
+                        : 'bg-gray-700/40 border-gray-700 text-gray-600'
+                    }`}
+                  >
+                    {i < groupSize ? (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+                      </svg>
+                    ) : (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                      </svg>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <span className="text-xs text-gray-500">
+                {groupSize} / 5 — Buscando {5 - groupSize} jugadores
+              </span>
             </div>
           </div>
 
