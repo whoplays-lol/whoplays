@@ -28,6 +28,11 @@ out/
 __MACOSX/
 
 # ========================
+# Temp / Export folders
+# ========================
+assets/videos/.__capcut_export_temp_folder*/
+
+# ========================
 # IDE
 # ========================
 .vscode/
