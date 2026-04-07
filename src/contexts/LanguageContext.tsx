@@ -9,7 +9,7 @@ interface LanguageContextValue {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
-const SUPPORTED: Language[] = ['es', 'en', 'pt', 'zh', 'ja', 'ru', 'it', 'fr']
+const SUPPORTED: Language[] = ['es', 'en', 'pt', 'zh', 'ja', 'ru', 'it', 'fr', 'ko']
 
 function getInitialLanguage(): Language {
   if (typeof window === 'undefined') return 'en'

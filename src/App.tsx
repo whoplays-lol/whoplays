@@ -66,6 +66,7 @@ export default function App() {
         rank: prev.rank ?? undefined,
         currentGroupSize: prev.currentGroupSize,
         excludedSessionIds: excludedSessionIds.length > 0 ? excludedSessionIds : undefined,
+        descripcion: prev.descripcion ?? undefined,
       })
       setQueueRequest(result)
       setView('queue')
@@ -74,9 +75,11 @@ export default function App() {
     }
   }, [queueRequest])
 
-  const handleLeaveMatch = useCallback((excludedSessionIds: string[]) => {
-    handleRequeue(excludedSessionIds)
-  }, [handleRequeue])
+  const handleLeaveMatch = useCallback(() => {
+    setMatchGroup(null)
+    setQueueRequest(null)
+    setView('landing')
+  }, [])
 
   const handlePlayerLeft = useCallback(() => {
     handleRequeue()
