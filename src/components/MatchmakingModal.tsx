@@ -178,6 +178,7 @@ export default function MatchmakingModal({ onClose, onEnqueued }: MatchmakingMod
       onClick={handleBackdropClick}
     >
       <div className="bg-gray-950/95 border border-orange-800/30 rounded-2xl w-full max-w-lg
+                      max-h-[90vh] overflow-y-auto
                       shadow-2xl shadow-orange-900/20 backdrop-blur-md">
 
         {/* Header */}
@@ -189,6 +190,7 @@ export default function MatchmakingModal({ onClose, onEnqueued }: MatchmakingMod
             </p>
           </div>
           <button onClick={onClose}
+            aria-label={t.modal.close}
             className="w-9 h-9 flex items-center justify-center rounded-xl
                        bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white transition-colors">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"

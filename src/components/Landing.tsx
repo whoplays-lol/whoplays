@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
+import { API_URL } from '../config'
 import type { Language } from '../i18n/translations'
 
 const valorantLogo = '/images/Valorant-LOGO.png'
@@ -240,7 +241,7 @@ export default function Landing({ onFindTeammates }: LandingProps) {
   const [queueStats, setQueueStats] = useState<Record<string, number>>({})
 
   const fetchStats = useCallback(() => {
-    fetch('/api/matchmaking/stats')
+    fetch(`${API_URL}/api/matchmaking/stats`)
       .then(r => r.json())
       .then(data => {
         setQueueStats(data.stats)

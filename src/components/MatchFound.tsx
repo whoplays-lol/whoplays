@@ -9,7 +9,7 @@ interface MatchFoundProps {
   matchGroup: MatchGroupDto
   mySessionId: string
   myAlias: string
-  onLeave: (excludedSessionIds: string[]) => void
+  onLeave: () => void
   onPlayerLeft?: () => void
 }
 
@@ -36,7 +36,7 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, 
     } catch {
       // ignore — leave anyway
     }
-    onLeave(excludedSessionIds)
+    onLeave()
   }
 
   useEffect(() => {
