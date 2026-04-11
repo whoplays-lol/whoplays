@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { CreateQueueRequest, GameDefinition, MatchGroupDto, MessageDto, QueueRequestDto } from '../types'
+import type { CreateQueueRequest, GameDefinition, MatchGroupDto, MessageDto, ParsedProfile, QueueRequestDto } from '../types'
 import { API_URL } from '../config'
 
 const api = axios.create({ baseURL: API_URL + '/api' })
@@ -27,5 +27,8 @@ export const matchmakingApi = {
     api.get(`/matchmaking/match/${matchGroupId}/messages`).then(r => r.data),
 
   sendMessage: (matchGroupId: string, sessionId: string, content: string): Promise<MessageDto> =>
-    api.post(`/matchmaking/match/${matchGroupId}/messages`, { sessionId, content }).then(r => r.data)
+    api.post(`/matchmaking/match/${matchGroupId}/messages`, { sessionId, content }).then(r => r.data),
+
+  parseDescription: (descripcion: string, gameId: number): Promise<{ isValid: boolean; warnings: string[]; profile: ParsedProfile }> =>
+    api.post('/matchmaking/parse', { descripcion, gameId }).then(r => r.data)
 }

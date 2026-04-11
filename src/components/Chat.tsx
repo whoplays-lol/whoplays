@@ -3,8 +3,6 @@ import { matchmakingApi } from '../services/api'
 import { ensureConnected, getConnection } from '../services/signalr'
 import { useLanguage } from '../contexts/LanguageContext'
 import type { MessageDto } from '../types'
-import msgInSound from '../../assets/sounds/msg-in.mp3'
-import msgOutSound from '../../assets/sounds/msg-out.mp3'
 
 interface ChatProps {
   matchGroupId: string
@@ -31,6 +29,8 @@ export default function Chat({ matchGroupId, sessionId, alias, onPlayerLeft }: C
   const [playerLeftMsg, setPlayerLeftMsg] = useState<string | null>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const onPlayerLeftRef = useRef(onPlayerLeft)
+  useEffect(() => { onPlayerLeftRef.current = onPlayerLeft }, [onPlayerLeft])
 
   const scrollToBottom = useCallback(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -57,14 +57,14 @@ export default function Chat({ matchGroupId, sessionId, alias, onPlayerLeft }: C
           conn.on('ParticipantLeft', (leftAlias: string) => {
             setPlayerLeftMsg(leftAlias)
             setTimeout(() => {
-              onPlayerLeft?.()
+              onPlayerLeftRef.current?.()
             }, 3000)
           })
           conn.on('NewMessage', (message: MessageDto) => {
             setMessages(prev => {
               if (prev.some(m => m.id === message.id)) return prev
               if (message.alias !== alias) {
-                new Audio(msgInSound).play().catch(() => {})
+                new Audio('/sounds/msg-in.mp3').play().catch(() => {})
               }
               return [...prev, message]
             })
@@ -108,7 +108,7 @@ export default function Chat({ matchGroupId, sessionId, alias, onPlayerLeft }: C
         if (prev.some(m => m.id === sent.id)) return prev
         return [...prev, sent]
       })
-      new Audio(msgOutSound).play().catch(() => {})
+      new Audio('/sounds/msg-out.mp3').play().catch(() => {})
     } catch {
       setError(tc.sendError)
       setInput(content)

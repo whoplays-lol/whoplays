@@ -4,7 +4,6 @@ import Chat from './Chat'
 import { useLanguage } from '../contexts/LanguageContext'
 import { ensureConnected } from '../services/signalr'
 import type { MatchGroupDto, ParticipantDto } from '../types'
-import matchSound from '../../assets/sounds/team-found-notification.wav'
 
 interface MatchFoundProps {
   matchGroup: MatchGroupDto
@@ -18,15 +17,19 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, 
   const { t } = useLanguage()
   const tm = t.match
   const [showCelebration, setShowCelebration] = useState(true)
-  const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight })
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
 
   useEffect(() => {
+    setWindowSize({ width: window.innerWidth, height: window.innerHeight })
     const handler = () => setWindowSize({ width: window.innerWidth, height: window.innerHeight })
     window.addEventListener('resize', handler)
     return () => window.removeEventListener('resize', handler)
   }, [])
 
   const handleLeave = async () => {
+    const excludedSessionIds = matchGroup.participants
+      .filter(p => p.sessionId !== mySessionId)
+      .map(p => p.sessionId)
     try {
       const conn = await ensureConnected()
       await conn.invoke('LeaveMatch', matchGroup.id, myAlias)
@@ -38,7 +41,7 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, 
 
   useEffect(() => {
     // Play notification sound when match is found
-    const audio = new Audio(matchSound)
+    const audio = new Audio('/sounds/team-found-notification.mp3')
     audio.play().catch(() => {
       // Browsers may block autoplay if there was no prior user interaction — silent fail
     })
@@ -109,6 +112,13 @@ export default function MatchFound({ matchGroup, mySessionId, myAlias, onLeave, 
             <InfoBadge label={tm.labels.mode} value={matchGroup.mode} />
             <InfoBadge label={tm.labels.players} value={String(matchGroup.totalPlayers)} />
           </div>
+
+          {matchGroup.matchReason && (
+            <div className="mb-5 flex items-start gap-2 bg-orange-500/10 border border-orange-500/20 rounded-xl px-4 py-3">
+              <span className="text-orange-400 text-sm">✨</span>
+              <p className="text-sm text-orange-300 leading-snug">{matchGroup.matchReason}</p>
+            </div>
+          )}
 
           {/* Participants */}
           <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-3">

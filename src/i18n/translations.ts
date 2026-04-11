@@ -1,4 +1,4 @@
-export type Language = 'es' | 'en' | 'pt' | 'zh' | 'ja' | 'ru' | 'it' | 'fr'
+export type Language = 'es' | 'en' | 'pt' | 'zh' | 'ja' | 'ru' | 'it' | 'fr' | 'ko'
 
 export interface Translations {
   landing: {
@@ -11,6 +11,8 @@ export interface Translations {
       steps: { step: string; title: string; desc: string }[]
     }
     footer: string
+    searchingNow: string
+    searchingFirst: string
   }
   modal: {
     title: string
@@ -40,6 +42,22 @@ export interface Translations {
     cancel: string
     submit: string
     submitting: string
+    inputModeIA: string
+    inputModeManual: string
+    descLabel: string
+    modoLabel: string
+    rangoLabel: string
+    formatoLabel: string
+    descHint: string
+    groupSizeLabel: string
+    findTeammatesIA: string
+    buscarCompañeros: string
+    modoIndividual: string
+    descriptionMin: string
+    warningNoMode: string
+    warningNoSize: string
+    warningNoRank: string
+    warningRankRequired: string
   }
   queue: {
     title: string
@@ -68,7 +86,7 @@ export interface Translations {
     title: string; live: string; loading: string; empty: string
     placeholder: string; send: string; sendError: string
   }
-  langSwitcher: { label: string; es: string; en: string; pt: string; zh: string; ja: string; ru: string; it: string; fr: string }
+  langSwitcher: { label: string; es: string; en: string; pt: string; zh: string; ja: string; ru: string; it: string; fr: string; ko: string }
 }
 
 const translations: Record<Language, Translations> = {
@@ -110,6 +128,8 @@ const translations: Record<Language, Translations> = {
         ],
       },
       footer: 'WhoPlays — Hecho para gamers, por gamers.',
+      searchingNow: 'Buscando ahora',
+      searchingFirst: 'Sé el primero en buscar',
     },
     modal: {
       title: 'Buscar compañeros',
@@ -151,6 +171,22 @@ const translations: Record<Language, Translations> = {
       cancel: 'Cancelar',
       submit: 'Buscar compañeros',
       submitting: 'Buscando...',
+      inputModeIA: 'IA',
+      inputModeManual: 'Manual',
+      descLabel: 'Describite y contá qué buscás',
+      modoLabel: 'MODO',
+      rangoLabel: 'RANGO',
+      formatoLabel: 'FORMATO',
+      descHint: 'Rol, cuántos son / cuántos buscan, división',
+      groupSizeLabel: '¿Cuántos son en tu grupo?',
+      findTeammatesIA: 'Find teammates ✨',
+      buscarCompañeros: 'Buscar compañeros',
+      modoIndividual: 'Modo individual',
+      descriptionMin: 'Describite un poco más para encontrar el mejor match.',
+      warningNoMode: 'No especificaste qué modo querés jugar',
+      warningNoSize: 'No especificaste cuántos son en tu grupo',
+      warningNoRank: 'Especificaste ranked pero no indicaste tu rango',
+      warningRankRequired: 'Para jugar competitivo tenés que especificar tu rango',
     },
     queue: {
       title: 'Buscando compañeros...',
@@ -200,7 +236,7 @@ const translations: Record<Language, Translations> = {
     },
     langSwitcher: {
       label: 'Idioma',
-      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français',
+      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français', ko: '한국어',
     },
   },
   en: {
@@ -241,6 +277,8 @@ const translations: Record<Language, Translations> = {
         ],
       },
       footer: 'WhoPlays — Built for gamers, by gamers.',
+      searchingNow: 'Searching now',
+      searchingFirst: 'Be the first to search',
     },
     modal: {
       title: 'Find teammates',
@@ -282,6 +320,22 @@ const translations: Record<Language, Translations> = {
       cancel: 'Cancel',
       submit: 'Find teammates',
       submitting: 'Searching...',
+      inputModeIA: 'AI',
+      inputModeManual: 'Manual',
+      descLabel: 'Describe yourself and what you need',
+      modoLabel: 'MODE',
+      rangoLabel: 'RANK',
+      formatoLabel: 'FORMAT',
+      descHint: 'Role, group size / seeking, division',
+      groupSizeLabel: 'How many are in your group?',
+      findTeammatesIA: 'Find teammates ✨',
+      buscarCompañeros: 'Find teammates',
+      modoIndividual: 'Solo mode',
+      descriptionMin: 'Tell us a bit more to find the best match.',
+      warningNoMode: "You didn't specify which game mode you want",
+      warningNoSize: "You didn't specify how many players are in your group",
+      warningNoRank: "You selected ranked but didn't specify your rank",
+      warningRankRequired: 'To play ranked you need to specify your rank',
     },
     queue: {
       title: 'Finding teammates...',
@@ -331,7 +385,7 @@ const translations: Record<Language, Translations> = {
     },
     langSwitcher: {
       label: 'Language',
-      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français',
+      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français', ko: '한국어',
     },
   },
   pt: {
@@ -355,6 +409,8 @@ const translations: Record<Language, Translations> = {
         ],
       },
       footer: 'WhoPlays — Feito para gamers, por gamers.',
+      searchingNow: 'Buscando agora',
+      searchingFirst: 'Seja o primeiro a buscar',
     },
     modal: {
       title: 'Encontrar parceiros',
@@ -381,6 +437,22 @@ const translations: Record<Language, Translations> = {
       groupComplete: 'Grupo completo', loadingGames: 'Carregando jogos...',
       submitError: 'Erro ao entrar na fila. Tente novamente.',
       cancel: 'Cancelar', submit: 'Encontrar parceiros', submitting: 'Buscando...',
+      inputModeIA: 'IA',
+      inputModeManual: 'Manual',
+      descLabel: 'Descreva-se e o que você procura',
+      modoLabel: 'MODO',
+      rangoLabel: 'RANK',
+      formatoLabel: 'FORMATO',
+      descHint: 'Função, tamanho do grupo / buscando, divisão',
+      groupSizeLabel: 'Quantos estão no seu grupo?',
+      findTeammatesIA: 'Encontrar parceiros ✨',
+      buscarCompañeros: 'Encontrar parceiros',
+      modoIndividual: 'Modo individual',
+      descriptionMin: 'Descreva-se um pouco mais para encontrar o melhor match.',
+      warningNoMode: 'Você não especificou o modo de jogo',
+      warningNoSize: 'Você não especificou quantos jogadores estão no seu grupo',
+      warningNoRank: 'Você selecionou ranked mas não especificou seu rank',
+      warningRankRequired: 'Para jogar ranqueado você precisa especificar seu rank',
     },
     queue: {
       title: 'Procurando parceiros...',
@@ -403,7 +475,7 @@ const translations: Record<Language, Translations> = {
     },
     langSwitcher: {
       label: 'Idioma',
-      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français',
+      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français', ko: '한국어',
     },
   },
   zh: {
@@ -427,6 +499,8 @@ const translations: Record<Language, Translations> = {
         ],
       },
       footer: 'WhoPlays — 由玩家为玩家打造。',
+      searchingNow: '正在搜索',
+      searchingFirst: '成为第一个搜索的人',
     },
     modal: {
       title: '寻找队友',
@@ -453,6 +527,22 @@ const translations: Record<Language, Translations> = {
       groupComplete: '队伍已满', loadingGames: '加载游戏中...',
       submitError: '加入队列失败，请重试。',
       cancel: '取消', submit: '寻找队友', submitting: '搜索中...',
+      inputModeIA: 'AI',
+      inputModeManual: '手动',
+      descLabel: '描述你自己和你的需求',
+      modoLabel: '模式',
+      rangoLabel: '段位',
+      formatoLabel: '格式',
+      descHint: '角色、人数/寻找人数、段位',
+      groupSizeLabel: '你的队伍有几人?',
+      findTeammatesIA: '寻找队友 ✨',
+      buscarCompañeros: '寻找队友',
+      modoIndividual: '单人模式',
+      descriptionMin: '请多描述一些，以找到最佳匹配。',
+      warningNoMode: '未指定游戏模式',
+      warningNoSize: '未指定队伍人数',
+      warningNoRank: '选择了排位但未指定段位',
+      warningRankRequired: '参加排位赛需要指定您的段位',
     },
     queue: {
       title: '正在寻找队友...',
@@ -475,7 +565,7 @@ const translations: Record<Language, Translations> = {
     },
     langSwitcher: {
       label: '语言',
-      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français',
+      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français', ko: '한국어',
     },
   },
   ja: {
@@ -499,6 +589,8 @@ const translations: Record<Language, Translations> = {
         ],
       },
       footer: 'WhoPlays — ゲーマーによる、ゲーマーのためのサービス。',
+      searchingNow: '現在検索中',
+      searchingFirst: '最初に検索する人になろう',
     },
     modal: {
       title: 'チームメイトを探す',
@@ -525,6 +617,22 @@ const translations: Record<Language, Translations> = {
       groupComplete: 'グループ満員', loadingGames: 'ゲームを読み込み中...',
       submitError: 'キューへの参加に失敗しました。もう一度お試しください。',
       cancel: 'キャンセル', submit: 'チームメイトを探す', submitting: '検索中...',
+      inputModeIA: 'AI',
+      inputModeManual: '手動',
+      descLabel: '自己紹介と求めること',
+      modoLabel: 'モード',
+      rangoLabel: 'ランク',
+      formatoLabel: '形式',
+      descHint: 'ロール、グループ人数/募集人数、ランク',
+      groupSizeLabel: 'グループは何人ですか?',
+      findTeammatesIA: 'チームメイトを探す ✨',
+      buscarCompañeros: 'チームメイトを探す',
+      modoIndividual: 'ソロモード',
+      descriptionMin: 'もう少し詳しく教えてください。',
+      warningNoMode: 'ゲームモードが指定されていません',
+      warningNoSize: 'グループ人数が指定されていません',
+      warningNoRank: 'ランク戦を選択しましたがランクが指定されていません',
+      warningRankRequired: 'ランク戦をプレイするにはランクを指定してください',
     },
     queue: {
       title: 'チームメイトを探しています...',
@@ -547,7 +655,7 @@ const translations: Record<Language, Translations> = {
     },
     langSwitcher: {
       label: '言語',
-      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français',
+      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français', ko: '한국어',
     },
   },
   ru: {
@@ -571,6 +679,8 @@ const translations: Record<Language, Translations> = {
         ],
       },
       footer: 'WhoPlays — Создано геймерами для геймеров.',
+      searchingNow: 'Сейчас ищут',
+      searchingFirst: 'Будьте первым, кто ищет',
     },
     modal: {
       title: 'Найти тиммейтов',
@@ -597,6 +707,22 @@ const translations: Record<Language, Translations> = {
       groupComplete: 'Группа укомплектована', loadingGames: 'Загрузка игр...',
       submitError: 'Ошибка при входе в очередь. Попробуй снова.',
       cancel: 'Отмена', submit: 'Найти тиммейтов', submitting: 'Поиск...',
+      inputModeIA: 'ИИ',
+      inputModeManual: 'Вручную',
+      descLabel: 'Опиши себя и что ищешь',
+      modoLabel: 'РЕЖИМ',
+      rangoLabel: 'РАНГ',
+      formatoLabel: 'ФОРМАТ',
+      descHint: 'Роль, размер группы / ищем, ранг',
+      groupSizeLabel: 'Сколько человек в группе?',
+      findTeammatesIA: 'Найти тиммейтов ✨',
+      buscarCompañeros: 'Найти тиммейтов',
+      modoIndividual: 'Одиночный режим',
+      descriptionMin: 'Расскажи чуть больше для лучшего подбора.',
+      warningNoMode: 'Не указан режим игры',
+      warningNoSize: 'Не указано количество игроков в группе',
+      warningNoRank: 'Выбран ранговый режим, но ранг не указан',
+      warningRankRequired: 'Для игры в ранговом режиме укажите свой ранг',
     },
     queue: {
       title: 'Ищем тиммейтов...',
@@ -619,7 +745,7 @@ const translations: Record<Language, Translations> = {
     },
     langSwitcher: {
       label: 'Язык',
-      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français',
+      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français', ko: '한국어',
     },
   },
   it: {
@@ -643,6 +769,8 @@ const translations: Record<Language, Translations> = {
         ],
       },
       footer: 'WhoPlays — Fatto da gamer, per gamer.',
+      searchingNow: 'Cercando ora',
+      searchingFirst: 'Sii il primo a cercare',
     },
     modal: {
       title: 'Trova compagni',
@@ -669,6 +797,22 @@ const translations: Record<Language, Translations> = {
       groupComplete: 'Gruppo completo', loadingGames: 'Caricamento giochi...',
       submitError: "Errore durante l'accesso alla coda. Riprova.",
       cancel: 'Annulla', submit: 'Trova compagni', submitting: 'Ricerca...',
+      inputModeIA: 'IA',
+      inputModeManual: 'Manual',
+      descLabel: 'Descriviti e cosa cerchi',
+      modoLabel: 'MODO',
+      rangoLabel: 'RANK',
+      formatoLabel: 'FORMATO',
+      descHint: 'Ruolo, dimensione gruppo / cercando, divisione',
+      groupSizeLabel: 'Quanti siete nel gruppo?',
+      findTeammatesIA: 'Trova compagni ✨',
+      buscarCompañeros: 'Trova compagni',
+      modoIndividual: 'Modalità individuale',
+      descriptionMin: "Descriviti un po' di più per trovare il miglior match.",
+      warningNoMode: 'Non hai specificato la modalità di gioco',
+      warningNoSize: 'Non hai specificato quanti siete nel gruppo',
+      warningNoRank: 'Hai selezionato ranked ma non hai specificato il rank',
+      warningRankRequired: 'Per giocare in ranked devi specificare il tuo rank',
     },
     queue: {
       title: 'Ricerca compagni...',
@@ -691,7 +835,7 @@ const translations: Record<Language, Translations> = {
     },
     langSwitcher: {
       label: 'Lingua',
-      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français',
+      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français', ko: '한국어',
     },
   },
   fr: {
@@ -715,6 +859,8 @@ const translations: Record<Language, Translations> = {
         ],
       },
       footer: 'WhoPlays — Fait par des gamers, pour des gamers.',
+      searchingNow: 'Recherche en cours',
+      searchingFirst: 'Soyez le premier à chercher',
     },
     modal: {
       title: 'Trouver des coéquipiers',
@@ -741,6 +887,22 @@ const translations: Record<Language, Translations> = {
       groupComplete: 'Groupe complet', loadingGames: 'Chargement des jeux...',
       submitError: "Erreur lors de l'entrée en file. Réessaie.",
       cancel: 'Annuler', submit: 'Trouver des coéquipiers', submitting: 'Recherche...',
+      inputModeIA: 'IA',
+      inputModeManual: 'Manuel',
+      descLabel: 'Décris-toi et ce que tu cherches',
+      modoLabel: 'MODE',
+      rangoLabel: 'RANG',
+      formatoLabel: 'FORMAT',
+      descHint: 'Rôle, taille du groupe / recherche, division',
+      groupSizeLabel: 'Combien êtes-vous dans le groupe?',
+      findTeammatesIA: 'Trouver des coéquipiers ✨',
+      buscarCompañeros: 'Trouver des coéquipiers',
+      modoIndividual: 'Mode individuel',
+      descriptionMin: 'Décris-toi un peu plus pour trouver le meilleur match.',
+      warningNoMode: "Vous n'avez pas spécifié le mode de jeu",
+      warningNoSize: "Vous n'avez pas spécifié le nombre de joueurs dans votre groupe",
+      warningNoRank: "Vous avez sélectionné ranked mais n'avez pas spécifié votre rang",
+      warningRankRequired: 'Pour jouer en ranked vous devez spécifier votre rang',
     },
     queue: {
       title: 'Recherche de coéquipiers...',
@@ -763,7 +925,97 @@ const translations: Record<Language, Translations> = {
     },
     langSwitcher: {
       label: 'Langue',
-      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français',
+      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français', ko: '한국어',
+    },
+  },
+  ko: {
+    landing: {
+      badge: '실시간 매치메이킹',
+      hero: {
+        line1: '팀을 완성하고,',
+        line2: '게임을 시작하세요.',
+        subtitle: '회원가입 없음. 프로필 없음. 찾고, 만나고, 플레이하세요.',
+        description: '같은 서버, 모드, 랭크에서 똑같은 것을 찾는 플레이어와 연결하세요.',
+        cta: '팀원 찾기',
+      },
+      stats: { regLabel: '회원가입 불필요', freeLabel: '무료', mmLabel: '매치메이킹' },
+      gamesTitle: '지원 게임',
+      howItWorks: {
+        title: '이용 방법',
+        steps: [
+          { step: '01', title: '게임 선택', desc: '게임, 서버, 모드, 랭크를 선택하세요. 몇 초면 끝납니다.' },
+          { step: '02', title: '큐 참가', desc: '시스템이 실시간으로 호환되는 플레이어를 찾습니다.' },
+          { step: '03', title: '팀 찾기', desc: '그룹이 완성되면 채팅으로 전략을 세우세요.' },
+        ],
+      },
+      footer: 'WhoPlays — 게이머가 게이머를 위해 만들었습니다.',
+      searchingNow: '지금 검색 중',
+      searchingFirst: '첫 번째로 검색해보세요',
+    },
+    modal: {
+      title: '팀원 찾기',
+      subtitle: '큐에 참가하려면 정보를 입력하세요',
+      close: '닫기',
+      fields: {
+        alias: '게임 내 닉네임', aliasPlaceholder: '예: SwiftWolf123',
+        game: '게임', gamePlaceholder: '게임 선택',
+        server: '서버', serverPlaceholder: '서버 선택',
+        mode: '게임 모드', modePlaceholder: '모드 선택',
+        teamFormat: '팀 형식', teamFormatPlaceholder: '형식 선택',
+        rank: '랭크', rankPlaceholder: '랭크 선택',
+        groupSize: '현재 그룹 인원',
+      },
+      validation: {
+        aliasRequired: '닉네임을 입력하세요', aliasMin: '최소 2자', aliasMax: '최대 32자',
+        gameRequired: '게임을 선택하세요', serverRequired: '서버를 선택하세요',
+        modeRequired: '모드를 선택하세요', teamFormatRequired: '팀 형식을 선택하세요',
+        rankRequired: '랭크를 선택하세요', groupSizeRequired: '그룹 인원을 입력하세요',
+        groupSizeMin: '최소 1명', groupSizeMax: (max: number) => `최대 ${max}명`,
+      },
+      teamFormatOption: (name: string, size: number) => `${name} (${size}명)`,
+      seekingPlayers: (n: number) => `${n}명의 플레이어를 찾는 중`,
+      groupComplete: '그룹 완성', loadingGames: '게임 불러오는 중...',
+      submitError: '큐 참가 실패. 다시 시도하세요.',
+      cancel: '취소', submit: '팀원 찾기', submitting: '검색 중...',
+      inputModeIA: 'AI',
+      inputModeManual: '수동',
+      descLabel: '자신과 원하는 것을 설명하세요',
+      modoLabel: '모드',
+      rangoLabel: '랭크',
+      formatoLabel: '형식',
+      descHint: '역할, 그룹 인원 / 모집 인원, 랭크',
+      groupSizeLabel: '그룹에 몇 명이 있나요?',
+      findTeammatesIA: '팀원 찾기 ✨',
+      buscarCompañeros: '팀원 찾기',
+      modoIndividual: '개인 모드',
+      descriptionMin: '더 자세히 설명해주세요.',
+      warningNoMode: '게임 모드를 지정하지 않았습니다',
+      warningNoSize: '그룹 인원을 지정하지 않았습니다',
+      warningNoRank: '랭크 게임을 선택했지만 랭크를 지정하지 않았습니다',
+      warningRankRequired: '랭크 게임을 하려면 랭크를 지정해야 합니다',
+    },
+    queue: {
+      title: '팀원을 찾는 중...',
+      subtitle: (n: number) => `그룹을 완성하기 위해 ${n}명을 찾는 중`,
+      elapsed: '대기 중', details: '검색 세부 정보',
+      labels: { game: '게임', server: '서버', mode: '모드', format: '형식', rank: '랭크', myGroup: '내 그룹', seeking: '모집 중' },
+      seekingValue: (n: number) => `${n}명`,
+      cancel: '검색 취소', cancelling: '취소 중...', cancelError: '취소할 수 없습니다. 다시 시도하세요.',
+    },
+    match: {
+      celebration: '매치 찾음!', celebrationSub: '팀이 준비되었습니다',
+      title: '매치 찾음!', matchInfo: '매치 정보', participants: '참가자',
+      labels: { game: '게임', server: '서버', mode: '모드', players: '플레이어' },
+      you: '나', groupOf: (n: number) => `총 ${n}명 중`, group: '그룹:', leave: '나가기',
+    },
+    chat: {
+      title: '그룹 채팅', live: '실시간', loading: '메시지 불러오는 중...',
+      empty: '첫 번째로 메시지를 보내세요!', placeholder: '메시지 입력...',
+      send: '전송', sendError: '메시지를 보낼 수 없습니다.',
+    },
+    langSwitcher: {
+      label: '언어',
+      es: 'Español', en: 'English', pt: 'Português', zh: '中文', ja: '日本語', ru: 'Русский', it: 'Italiano', fr: 'Français', ko: '한국어',
     },
   },
 }

@@ -158,7 +158,10 @@ export default function QueueStatus({ queueRequest, onMatchFound, onCancel }: Qu
           <div className="grid grid-cols-2 gap-3">
             <DetailItem label={tq.labels.game} value={queueRequest.gameName} />
             <DetailItem label={tq.labels.server} value={queueRequest.server} />
-            <DetailItem label={tq.labels.mode} value={queueRequest.mode} />
+            <DetailItem
+              label={tq.labels.mode}
+              value={queueRequest.mode === 'Semantic' ? t.modal.inputModeIA : queueRequest.mode}
+            />
             {queueRequest.teamFormat && (
               <DetailItem label={tq.labels.format} value={queueRequest.teamFormat} />
             )}

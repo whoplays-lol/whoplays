@@ -12,6 +12,8 @@ node_modules/
 dist/
 build/
 .vite/
+.next/
+out/
 
 # ========================
 # .NET
@@ -24,6 +26,11 @@ build/
 # ========================
 .DS_Store
 __MACOSX/
+
+# ========================
+# Temp / Export folders
+# ========================
+assets/videos/.__capcut_export_temp_folder*/
 
 # ========================
 # IDE

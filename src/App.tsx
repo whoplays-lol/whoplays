@@ -1,6 +1,7 @@
+'use client'
+
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { matchmakingApi } from './services/api'
-import videoSrc from '../assets/videos/video-loop.mp4'
 import Landing from './components/Landing'
 import MatchmakingModal from './components/MatchmakingModal'
 import QueueStatus from './components/QueueStatus'
@@ -42,7 +43,7 @@ export default function App() {
     setView('landing')
   }, [])
 
-  const handlePlayerLeft = useCallback(async () => {
+  const handleRequeue = useCallback(async (excludedSessionIds: string[] = []) => {
     if (!queueRequest) {
       setMatchGroup(null)
       setQueueRequest(null)
@@ -64,6 +65,8 @@ export default function App() {
         teamFormat: prev.teamFormat ?? undefined,
         rank: prev.rank ?? undefined,
         currentGroupSize: prev.currentGroupSize,
+        excludedSessionIds: excludedSessionIds.length > 0 ? excludedSessionIds : undefined,
+        descripcion: prev.descripcion ?? undefined,
       })
       setQueueRequest(result)
       setView('queue')
@@ -71,6 +74,16 @@ export default function App() {
       setView('modal')
     }
   }, [queueRequest])
+
+  const handleLeaveMatch = useCallback(() => {
+    setMatchGroup(null)
+    setQueueRequest(null)
+    setView('landing')
+  }, [])
+
+  const handlePlayerLeft = useCallback(() => {
+    handleRequeue()
+  }, [handleRequeue])
 
   return (
     <LanguageProvider>
@@ -84,7 +97,7 @@ export default function App() {
         disablePictureInPicture
         preload="auto"
         className="fixed inset-0 w-full h-full object-cover -z-10"
-        src={videoSrc}
+        src="/videos/video-loop.mp4"
       />
       <div className="fixed inset-0 bg-black/50 -z-10" />
 
@@ -114,7 +127,7 @@ export default function App() {
           matchGroup={matchGroup}
           mySessionId={queueRequest.sessionId}
           myAlias={queueRequest.alias}
-          onLeave={handleCancel}
+          onLeave={handleLeaveMatch}
           onPlayerLeft={handlePlayerLeft}
         />
       )}

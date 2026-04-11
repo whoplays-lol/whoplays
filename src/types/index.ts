@@ -21,6 +21,18 @@ export interface TeamFormatDefinition {
   teamSize: number
 }
 
+export interface ParsedProfile {
+  rol?: string
+  rango?: string
+  buscaRol?: string
+  buscaRango?: string
+  estilo?: string
+  idioma?: string
+  tamañoEquipoBuscado?: number
+  modo?: string
+  tamañoGrupoActual?: number
+}
+
 export interface CreateQueueRequest {
   alias: string
   sessionId: string
@@ -30,6 +42,9 @@ export interface CreateQueueRequest {
   teamFormat?: string
   rank?: string
   currentGroupSize: number
+  excludedSessionIds?: string[]
+  descripcion?: string
+  perfilParseado?: ParsedProfile
 }
 
 export interface QueueRequestDto {
@@ -48,6 +63,7 @@ export interface QueueRequestDto {
   status: 'Pending' | 'Matched' | 'Cancelled'
   matchGroupId?: string
   createdAt: string
+  descripcion?: string
 }
 
 export interface MatchGroupDto {
@@ -59,6 +75,7 @@ export interface MatchGroupDto {
   teamFormat?: string
   rank?: string
   totalPlayers: number
+  matchReason?: string
   participants: ParticipantDto[]
   createdAt: string
 }

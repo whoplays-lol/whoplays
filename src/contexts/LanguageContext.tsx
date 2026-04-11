@@ -9,11 +9,14 @@ interface LanguageContextValue {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null)
 
+const SUPPORTED: Language[] = ['es', 'en', 'pt', 'zh', 'ja', 'ru', 'it', 'fr', 'ko']
+
 function getInitialLanguage(): Language {
-  const stored = localStorage.getItem('wf_lang')
-  if (stored === 'es' || stored === 'en') return stored
+  if (typeof window === 'undefined') return 'en'
+  const stored = localStorage.getItem('wf_lang') as Language | null
+  if (stored && SUPPORTED.includes(stored)) return stored
   const browser = navigator.language.toLowerCase()
-  return browser.startsWith('es') ? 'es' : 'en'
+  return SUPPORTED.find(l => browser.startsWith(l)) ?? 'en'
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {

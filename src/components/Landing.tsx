@@ -1,11 +1,12 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
+import { API_URL } from '../config'
 import type { Language } from '../i18n/translations'
-import logoImg from '../../assets/images/logo.png'
-import valorantLogo from '../../assets/images/Valorant-LOGO.png'
-import lolLogo from '../../assets/images/LeagueOfLegends-LOGO.png'
-import cs2Logo from '../../assets/images/Cs2-LOGO.webp'
-import fortniteLogo from '../../assets/images/Fortnite-LOGO.png'
+
+const valorantLogo = '/images/Valorant-LOGO.png'
+const lolLogo = '/images/LeagueOfLegends-LOGO.png'
+const cs2Logo = '/images/Cs2-LOGO.webp'
+const fortniteLogo = '/images/Fortnite-LOGO.png'
 
 interface LandingProps {
   onFindTeammates: () => void
@@ -27,7 +28,137 @@ const LANGUAGE_OPTIONS: { value: Language; label: string; flag: string }[] = [
   { value: 'ru', label: 'Русский',   flag: '🇷🇺' },
   { value: 'it', label: 'Italiano',  flag: '🇮🇹' },
   { value: 'fr', label: 'Français',  flag: '🇫🇷' },
+  { value: 'ko', label: '한국어',     flag: '🇰🇷' },
 ]
+
+function WhoPlaysLogo() {
+  const [hoveredFig, setHoveredFig] = useState<number | null>(null)
+
+  return (
+    <div className="flex items-center select-none cursor-default" style={{ height: '60px' }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+        @keyframes pulse-fig-1 { 0%,100%{opacity:0.5;fill:#f97316} 50%{opacity:0.7;fill:#ef4444} }
+        @keyframes pulse-fig-2 { 0%,100%{opacity:0.65;fill:#f97316} 50%{opacity:0.85;fill:#ef4444} }
+        @keyframes pulse-fig-3 { 0%,100%{opacity:0.85;fill:#ef4444} 50%{opacity:1;fill:#f97316} }
+        @keyframes pulse-fig-4 { 0%,100%{opacity:0.65;fill:#f97316} 50%{opacity:0.85;fill:#ef4444} }
+        @keyframes pulse-fig-5 { 0%,100%{opacity:0.5;fill:#f97316} 50%{opacity:0.7;fill:#ef4444} }
+        @keyframes neon-flicker {
+          0%,95%,100%{opacity:1} 96%{opacity:0.85} 97%{opacity:1} 98%{opacity:0.9} 99%{opacity:1}
+        }
+        .fig-1{animation:pulse-fig-1 2.4s ease-in-out infinite 0s}
+        .fig-2{animation:pulse-fig-2 2.4s ease-in-out infinite 0.4s}
+        .fig-3{animation:pulse-fig-3 2.4s ease-in-out infinite 0.8s}
+        .fig-4{animation:pulse-fig-4 2.4s ease-in-out infinite 1.2s}
+        .fig-5{animation:pulse-fig-5 2.4s ease-in-out infinite 1.6s}
+        .who-text{animation:neon-flicker 5s infinite}
+      `}</style>
+
+      <div className="logo-wrap relative" style={{ width: '220px', height: '60px' }}>
+        <svg viewBox="0 0 220 60" width="220" height="60" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="glow-soft">
+              <feGaussianBlur stdDeviation="2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glow-strong">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <linearGradient id="og-red" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#f97316"/>
+              <stop offset="100%" stopColor="#ef4444"/>
+            </linearGradient>
+          </defs>
+
+          {/* Figure 1 - leftmost small */}
+          <g
+            className="fig-1"
+            filter="url(#glow-soft)"
+            onMouseEnter={() => setHoveredFig(0)}
+            onMouseLeave={() => setHoveredFig(null)}
+            style={hoveredFig === 0 ? { fill: '#ef4444', filter: 'drop-shadow(0 0 8px #ef4444) drop-shadow(0 0 16px #ef4444)', transition: 'all 0.2s' } : { transition: 'all 0.2s' }}
+          >
+            <circle cx="8" cy="15" r="4" />
+            <path d="M4 21 Q8 18 12 21 L11 33 L8 30.5 L5 33 Z"/>
+          </g>
+
+          {/* Figure 2 */}
+          <g
+            className="fig-2"
+            filter="url(#glow-soft)"
+            onMouseEnter={() => setHoveredFig(1)}
+            onMouseLeave={() => setHoveredFig(null)}
+            style={hoveredFig === 1 ? { fill: '#ef4444', filter: 'drop-shadow(0 0 8px #ef4444) drop-shadow(0 0 16px #ef4444)', transition: 'all 0.2s' } : { transition: 'all 0.2s' }}
+          >
+            <circle cx="20" cy="12" r="5" />
+            <path d="M15 20 Q20 16.5 25 20 L23.5 35 L20 32 L16.5 35 Z"/>
+          </g>
+
+          {/* Figure 3 - center tallest brightest */}
+          <g
+            className="fig-3"
+            filter="url(#glow-strong)"
+            onMouseEnter={() => setHoveredFig(2)}
+            onMouseLeave={() => setHoveredFig(null)}
+            style={hoveredFig === 2 ? { fill: '#ef4444', filter: 'drop-shadow(0 0 8px #ef4444) drop-shadow(0 0 16px #ef4444)', transition: 'all 0.2s' } : { transition: 'all 0.2s' }}
+          >
+            <circle cx="34" cy="9" r="6.5" />
+            <path d="M27.5 19 Q34 14.5 40.5 19 L38.5 38 L34 34 L29.5 38 Z"/>
+          </g>
+
+          {/* Figure 4 */}
+          <g
+            className="fig-4"
+            filter="url(#glow-soft)"
+            onMouseEnter={() => setHoveredFig(3)}
+            onMouseLeave={() => setHoveredFig(null)}
+            style={hoveredFig === 3 ? { fill: '#ef4444', filter: 'drop-shadow(0 0 8px #ef4444) drop-shadow(0 0 16px #ef4444)', transition: 'all 0.2s' } : { transition: 'all 0.2s' }}
+          >
+            <circle cx="48" cy="12" r="5" />
+            <path d="M43 20 Q48 16.5 53 20 L51.5 35 L48 32 L44.5 35 Z"/>
+          </g>
+
+          {/* Figure 5 - rightmost small */}
+          <g
+            className="fig-5"
+            filter="url(#glow-soft)"
+            onMouseEnter={() => setHoveredFig(4)}
+            onMouseLeave={() => setHoveredFig(null)}
+            style={hoveredFig === 4 ? { fill: '#ef4444', filter: 'drop-shadow(0 0 8px #ef4444) drop-shadow(0 0 16px #ef4444)', transition: 'all 0.2s' } : { transition: 'all 0.2s' }}
+          >
+            <circle cx="60" cy="15" r="4" />
+            <path d="M56 21 Q60 18 64 21 L63 33 L60 30.5 L57 33 Z"/>
+          </g>
+
+          {/* WHO text */}
+          <text
+            className="who-text"
+            x="70" y="35"
+            fontFamily="'Fredoka One', cursive"
+            fontWeight="900"
+            fontSize="28"
+            fill="url(#og-red)"
+            filter="url(#glow-strong)"
+            letterSpacing="-1"
+            style={{ fontStyle: 'normal' }}
+          >WHO</text>
+
+          {/* PLAYS text - rounder feel */}
+          <text
+            x="72" y="54"
+            fontFamily="'Trebuchet MS', 'Gill Sans', 'Century Gothic', sans-serif"
+            fontWeight="700"
+            fontSize="15"
+            fill="white"
+            letterSpacing="5"
+            style={{ filter: 'drop-shadow(0 0 4px #ef4444)' }}
+          >PLAYS</text>
+        </svg>
+      </div>
+    </div>
+  )
+}
 
 function LanguageSwitcher() {
   const { language, setLanguage, t } = useLanguage()
@@ -107,12 +238,29 @@ export default function Landing({ onFindTeammates }: LandingProps) {
   const { t } = useLanguage()
   const tl = t.landing
 
+  const [queueStats, setQueueStats] = useState<Record<string, number>>({})
+
+  const fetchStats = useCallback(() => {
+    fetch(`${API_URL}/api/matchmaking/stats`)
+      .then(r => r.json())
+      .then(data => {
+        setQueueStats(data.stats)
+      })
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    fetchStats()
+    const interval = setInterval(fetchStats, 10000)
+    return () => clearInterval(interval)
+  }, [fetchStats])
+
   return (
     <div className="relative min-h-screen flex flex-col">
 
         {/* Nav */}
         <header className="relative z-10 flex items-center justify-between px-6 py-4 max-w-5xl mx-auto w-full">
-          <img src={logoImg} alt="WhoPlays" className="h-14 w-auto" />
+          <WhoPlaysLogo />
           <LanguageSwitcher />
         </header>
 
@@ -165,24 +313,22 @@ export default function Landing({ onFindTeammates }: LandingProps) {
             </div>
           </div>
 
-          {/* Games */}
+          {/* Live queue stats */}
           <div className="flex flex-col items-center gap-3">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-widest">
-              {tl.gamesTitle}
-            </p>
-            <div className="flex gap-4 flex-wrap justify-center items-center">
-              {GAMES.map(game => (
-                <div
-                  key={game.name}
-                  className="p-2 rounded-xl border border-white/15 bg-white/5 hover:border-orange-500/40 hover:bg-white/10 transition-all"
-                >
-                  <img
-                    src={game.logo}
-                    alt={game.name}
-                    className="h-10 w-10 object-contain"
-                  />
-                </div>
-              ))}
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-widest">{tl.searchingNow}</p>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {Object.entries(queueStats).map(([game, count]) =>
+                count > 0 && (
+                  <div key={game} className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                    <span className="text-xs text-gray-300">{game}</span>
+                    <span className="text-xs text-orange-400 font-semibold">{count}</span>
+                  </div>
+                )
+              )}
+              {Object.values(queueStats).every(v => v === 0) && (
+                <p className="text-xs text-gray-600">{tl.searchingFirst}</p>
+              )}
             </div>
           </div>
 
